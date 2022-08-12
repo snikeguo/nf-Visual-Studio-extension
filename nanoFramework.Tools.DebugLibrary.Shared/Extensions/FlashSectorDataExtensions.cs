@@ -27,12 +27,58 @@ namespace nanoFramework.Tools.Debugger.Extensions
                 int programmingAlignment = 0;
 
                 // check alignment requirements
-                if ((value.Flags
-                     & BlockRegionAttributes_MASK
-                     & BlockRegionAttribute_ProgramWidthIs64bits) == BlockRegionAttribute_ProgramWidthIs64bits)
+                var flags = value.Flags& BlockRegionAttributes_MASK;
+                if (flags!=0)
                 {
-                    // programming width is 64bits => 8 bytes
-                    programmingAlignment = 8;
+                    if ((flags & BlockRegionAttribute_ProgramWidthIs64bits) == BlockRegionAttribute_ProgramWidthIs64bits)
+                    {
+                        // programming width is 64bits => 8 bytes
+                        programmingAlignment = 8;
+                    }
+                    else if ((flags & BlockRegionAttribute_ProgramWidthIs32bits) == BlockRegionAttribute_ProgramWidthIs32bits)
+                    {
+                        programmingAlignment = 4;
+                    }
+                    else if ((flags & BlockRegionAttribute_ProgramWidthIs128bits) == BlockRegionAttribute_ProgramWidthIs128bits)
+                    {
+                        programmingAlignment = 16;
+                    }
+                    else if ((flags & BlockRegionAttribute_ProgramWidthIs256bits) == BlockRegionAttribute_ProgramWidthIs256bits)
+                    {
+                        programmingAlignment = 32;
+                    }
+                    else if ((flags & BlockRegionAttribute_ProgramWidthIs512bits) == BlockRegionAttribute_ProgramWidthIs512bits)
+                    {
+                        programmingAlignment = 64;
+                    }
+                    else if ((flags & BlockRegionAttribute_ProgramWidthIs1024bits) == BlockRegionAttribute_ProgramWidthIs1024bits)
+                    {
+                        programmingAlignment = 128;
+                    }
+                    else if ((flags & BlockRegionAttribute_ProgramWidthIs2048bits) == BlockRegionAttribute_ProgramWidthIs2048bits)
+                    {
+                        programmingAlignment = 256;
+                    }
+                    else if ((flags & BlockRegionAttribute_ProgramWidthIs4096bits) == BlockRegionAttribute_ProgramWidthIs4096bits)
+                    {
+                        programmingAlignment = 512;
+                    }
+                    else if ((flags & BlockRegionAttribute_ProgramWidthIs8192bits) == BlockRegionAttribute_ProgramWidthIs8192bits)
+                    {
+                        programmingAlignment = 1024;
+                    }
+                    else if ((flags & BlockRegionAttribute_ProgramWidthIs16384bits) == BlockRegionAttribute_ProgramWidthIs16384bits)
+                    {
+                        programmingAlignment = 2048;
+                    }
+                    else if ((flags & BlockRegionAttribute_ProgramWidthIs32768bits) == BlockRegionAttribute_ProgramWidthIs32768bits)
+                    {
+                        programmingAlignment = 4096;
+                    }
+                    else
+                    {
+                        programmingAlignment = 0;
+                    }
                 }
 
                 blocks.Add(new DeploymentBlock(
